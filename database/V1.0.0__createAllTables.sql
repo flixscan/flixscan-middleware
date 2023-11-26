@@ -5,8 +5,8 @@ CREATE TABLE IF NOT EXISTS public.organization
     organization_address       VARCHAR(225)  NOT NULL,
     organization_phone         VARCHAR(20)   NOT NULL,
     organization_email         VARCHAR(80)   NOT NULL,
-    created_at                 TIMESTAMP(0)  without time zone NOT NULL,
-    updated_at                 TIMESTAMP(0)  without time zone NOT NULL,
+    created_at                 TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
+    updated_at                 TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_organization PRIMARY KEY (organization_id)
 );
 
