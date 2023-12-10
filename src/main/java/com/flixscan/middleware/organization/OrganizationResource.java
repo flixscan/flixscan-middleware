@@ -1,33 +1,35 @@
-package com.flixscan.middleware.store;
-
-import java.util.List;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+/*
+ * Copyright (c) 2024 flixscan. All rights reserved.
+ */
+package com.flixscan.middleware.organization;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
-
 import io.smallrye.mutiny.Uni;
+import java.util.List;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
+
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.jboss.logging.Logger;
 
-@Path("store")
+@Path("organization")
 @Produces("application/json")
 @Consumes("application/json")
-public class StoreResource {
-    private static final Logger LOGGER = Logger.getLogger(StoreResource.class.getName());
+public class OrganizationResource {
+    private static final Logger LOGGER = Logger.getLogger(OrganizationResource.class.getName());
     @Inject
-    StoreService service;
+    OrganizationService service;
 
-    @Operation(operationId = "AllElement", summary = "show all element")
+    @Operation(operationId = "AllOrganizationElement", summary = "show all element")
     @APIResponses(
             value = {
                     @APIResponse(
@@ -37,12 +39,12 @@ public class StoreResource {
             }
     )
     @GET
-    public Uni<List<StoreEntity>> getAllEntry() {
-        return service.getAllStores();
+    public Uni<List<OrganizationEntity>> getAllEntry() {
+        return service.getAllOrganization();
     }
 
 
-    @Operation(operationId = "SingleElement", summary = "show single element")
+    @Operation(operationId = "SingleOrganizationElement", summary = "show single element")
     @APIResponses(
             value = {
                     @APIResponse(
@@ -52,12 +54,12 @@ public class StoreResource {
             }
     )
     @GET
-    @Path("{key}")
-    public Uni<StoreEntity> getSingleEntry(@PathParam("key") Long key) {
-        return service.findItemById(key);
+    @Path("{id}")
+    public Uni<OrganizationEntity> getSingleEntry(@PathParam("id") Long id) {
+        return service.findItemById(id);
     }
 
-    @Operation(operationId = "ElementShowByPage", summary = "show element by page")
+    @Operation(operationId = "OrganizationElementShowByPage", summary = "show element by page")
     @APIResponses(
             value = {
                     @APIResponse(
@@ -68,11 +70,11 @@ public class StoreResource {
     )
     @GET
     @Path("/{limit}/{offset}") // limit= item per page, offset = page number. if 6 element and per page 3 than total 2 page. so limit = 3, page =1 but url param=0 and page 2 but url param= 3
-    public Uni<List<StoreEntity>> getEntryByPage(@PathParam("limit") int limit, @PathParam("offset") int  offset) {
+    public Uni<List<OrganizationEntity>> getEntryByPage(int limit, int  offset) {
         return service.findAllByPage(limit, offset);
     }
 
-    @Operation(operationId = "create", summary = "create entry")
+    @Operation(operationId = "CreateOrganization", summary = "create entry")
     @APIResponses(
             value = {
                     @APIResponse(
@@ -90,11 +92,11 @@ public class StoreResource {
             }
     )
     @POST
-    public Uni<Response> createEntry(StoreEntity store) {
-        if (store == null || store.getId() != null) {
+    public Uni<Response> createEntry(OrganizationEntity organization) {
+        if (organization == null || organization.getId() != null) {
             throw new WebApplicationException("Id was invalidly set on request.", 422);
         }
-        return service.createStore(store);
+        return service.createOrganization(organization);
     }
 
     @APIResponses(
@@ -111,11 +113,11 @@ public class StoreResource {
     )
     @PUT
     @Path("{key}")
-    public Uni<Response> updateEntry(@PathParam("key") Long key, StoreEntity store) {
-        if (store == null || store.getStoreName() == null) {
-            throw new WebApplicationException("Store name was not set on request.", 422);
+    public Uni<Response> updateEntry(@PathParam("key") Long key, OrganizationEntity organization) {
+        if (organization == null || organization.getOrganizationName() == null) {
+            throw new WebApplicationException("Organization name was not set on request.", 422);
         }
-        return service.updateStore(key, store);
+        return service.updateOrganization(key, organization);
     }
 
     @DELETE
@@ -138,6 +140,6 @@ public class StoreResource {
             }
     )
     public Uni<Response> deleteEntry(@PathParam("key") Long key) {
-       return service.deleteStore(key);
+        return service.deleteOrganization(key);
     }
 }

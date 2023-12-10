@@ -1,15 +1,17 @@
 CREATE TABLE IF NOT EXISTS public.organization
 (
-    organization_id            BIGINT        NOT NULL GENERATED ALWAYS AS IDENTITY,
-    organization_name          VARCHAR(225)  NOT NULL,
-    organization_address       VARCHAR(225)  NOT NULL,
-    organization_phone         VARCHAR(20)   NOT NULL,
-    organization_email         VARCHAR(80)   NOT NULL,
-    created_at                 TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
-    updated_at                 TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
-    CONSTRAINT pk_organization PRIMARY KEY (organization_id)
+    id                         SERIAL        NOT NULL PRIMARY KEY,
+    organization_name          VARCHAR(225)  NULL,
+    organization_details       VARCHAR(225)  NULL,
+    organization_address       VARCHAR(225)  NULL,
+    organization_phone         VARCHAR(40)   NULL,
+    organization_email         VARCHAR(100)  NULL,
+    tax_id                     VARCHAR(100)  NULL,
+    registration_id            VARCHAR(100)  NULL,
+    created_at  TIMESTAMPTZ    NULL DEFAULT NOW(),
+    updated_at  TIMESTAMPTZ    NULL DEFAULT NOW()
 );
-
+CREATE INDEX index_organization_id ON organization (id);
 
 CREATE TABLE IF NOT EXISTS public.stores
 (
@@ -29,32 +31,56 @@ CREATE TABLE IF NOT EXISTS public.stores
 );
 CREATE INDEX index_store_id ON stores (id);
 
+
+CREATE TABLE IF NOT EXISTS public.areas
+(
+    id                  SERIAL         NOT NULL PRIMARY KEY,
+    organization_id     VARCHAR(100)   NOT NULL,
+    area_name           VARCHAR(255)   NOT NULL,
+    area_description    VARCHAR(50)    NULL,
+    area_code           VARCHAR(100)   NULL,
+    linked_rack         VARCHAR(50)    NULL,
+    epaper_count        VARCHAR(50)    NULL,
+    getway_count        VARCHAR(50)    NULL,
+    created_at          TIMESTAMPTZ    NULL DEFAULT NOW(),
+    updated_at          TIMESTAMPTZ    NULL DEFAULT NOW()
+);
+CREATE INDEX index_area_id ON stores (id);
+
 CREATE TABLE IF NOT EXISTS public.racks
 (
-    rack_id             BIGINT         NOT NULL GENERATED ALWAYS AS IDENTITY,
-    store_id            VARCHAR(50)    NOT NULL,
-    rack_name           VARCHAR(200)   NOT NULL,
-    rack_details        VARCHAR(255)   NOT NULL,
-    rack_number         VARCHAR(50)    NOT NULL,
-    rack_area           VARCHAR(50)    NOT NULL,
-    rack_image          VARCHAR(50)    NOT NULL,
-    epaper_count        VARCHAR(50)    NOT NULL,
-    getway_count        VARCHAR(50)    NOT NULL,
-    created_at          TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
-    updated_at          TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
-    CONSTRAINT pk_racks PRIMARY KEY (rack_id)
+    id                  SERIAL         NOT NULL PRIMARY KEY,
+    store_id            VARCHAR(50)    NULL,
+    rack_name           VARCHAR(200)   NULL,
+    rack_details        VARCHAR(255)   NULL,
+    rack_number         VARCHAR(50)    NULL,
+    rack_area           VARCHAR(50)    NULL,
+    rack_image          VARCHAR(50)    NULL,
+    epaper_count        VARCHAR(50)    NULL,
+    getway_count        VARCHAR(50)    NULL,
+    created_at          TIMESTAMPTZ    NULL DEFAULT NOW(),
+    updated_at          TIMESTAMPTZ    NULL DEFAULT NOW(),
 );
 CREATE INDEX index_rack_id ON racks (rack_id);
 
+CREATE TABLE IF NOT EXISTS public.templates
+(
+    id                      SERIAL         NOT NULL PRIMARY KEY,
+    template_name           VARCHAR(255)   NULL,
+    template_details        VARCHAR(225)   NULL,
+    template_attribute      JSON           NULL,
+    created_at              TIMESTAMPTZ    NULL DEFAULT NOW(),
+    updated_at              TIMESTAMPTZ    NULL DEFAULT NOW(),
+);
+CREATE INDEX index_template_id ON templates (template_id);
+
 CREATE TABLE IF NOT EXISTS public.products
 (
-    product_id            BIGINT         NOT NULL GENERATED ALWAYS AS IDENTITY,
-    rack_id               VARCHAR(50)    NOT NULL,
-    epaper_id             VARCHAR(225)   NOT NULL,
-    product_attribute     JSON           NOT NULL,
-    created_at            TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
-    updated_at            TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
-    CONSTRAINT pk_product PRIMARY KEY (product_id)
+    id                      SERIAL         NOT NULL PRIMARY KEY,
+    product_attribute       JSON           NULL,
+    linked_epaper           VARCHAR(255)   NULL,
+    created_at              TIMESTAMPTZ    NULL DEFAULT NOW(),
+    updated_at              TIMESTAMPTZ    NULL DEFAULT NOW(),
 );
 CREATE INDEX index_product_id ON products (product_id);
 
@@ -79,17 +105,7 @@ CREATE TABLE IF NOT EXISTS public.epapers
 );
 CREATE INDEX index_epaper_id ON epapers (epaper_id);
 
-CREATE TABLE IF NOT EXISTS public.templates
-(
-    template_id             BIGINT         NOT NULL GENERATED ALWAYS AS IDENTITY,
-    rack_id                 VARCHAR(50)    NOT NULL,
-    epaper_id               VARCHAR(225)   NOT NULL,
-    template_details        JSON           NOT NULL,
-    created_at              TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
-    updated_at              TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
-    CONSTRAINT pk_templates PRIMARY KEY (template_id)
-);
-CREATE INDEX index_template_id ON templates (template_id);
+
 
 CREATE TABLE IF NOT EXISTS public.users
 (

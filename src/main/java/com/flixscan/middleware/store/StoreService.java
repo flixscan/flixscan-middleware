@@ -1,10 +1,9 @@
 package com.flixscan.middleware.store;
+
 import io.quarkus.hibernate.reactive.panache.Panache;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
-
 import jakarta.ws.rs.core.Response;
-
 import java.time.Instant;
 import java.util.List;
 
@@ -22,8 +21,8 @@ public class StoreService {
         return StoreEntity.findById(id);
     }
 
-    public Uni<List<StoreEntity>>findAllByPage(int limit, int offset) {
-        return StoreEntity.findAll().page(limit,offset).list();
+    public Uni<List<StoreEntity>> findAllByPage(int limit, int offset) {
+        return StoreEntity.findAll().page(limit, offset).list();
     }
 
     public Uni<Response> createStore(StoreEntity store) {
@@ -48,8 +47,7 @@ public class StoreService {
                             entity.setUpdatedAt(Instant.now());
                             entity.persist();
                             return Response.ok(entity).build();
-                        })
-                        .onItem().ifNull().continueWith(Response.ok().status(NOT_FOUND)::build)
+                        }).onItem().ifNull().continueWith(Response.ok().status(NOT_FOUND)::build)
         );
     }
 
