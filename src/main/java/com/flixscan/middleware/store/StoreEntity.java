@@ -13,19 +13,16 @@ import lombok.Setter;
 import java.time.Instant;
 
 @Entity
-@Table(name = "stores")
+@Table(name = "store")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 public class StoreEntity extends PanacheEntityBase {
     @Id
-    @SequenceGenerator(name = "StoreSeq", sequenceName = "stores_id_seq", allocationSize = 1, initialValue = 1)
+    @SequenceGenerator(name = "StoreSeq", sequenceName = "store_id_seq", allocationSize = 1, initialValue = 1)
     @GeneratedValue(generator = "StoreSeq")
     private Long id;
-
-    @Column(name = "organization_id")
-    private String organizationId;
 
     @Column(name = "store_name")
     private String storeName;
@@ -53,6 +50,9 @@ public class StoreEntity extends PanacheEntityBase {
 
     @Column(name = "gateway_count")
     private String gatewayCount;
+
+    @Column(name = "organization_id")
+    private String organizationId;
 
     @Column(name = "created_at")
     private Instant createdAt;

@@ -13,10 +13,9 @@ CREATE TABLE IF NOT EXISTS public.organization
 );
 CREATE INDEX index_organization_id ON organization (id);
 
-CREATE TABLE IF NOT EXISTS public.stores
+CREATE TABLE IF NOT EXISTS public.store
 (
-    id                  SERIAL        NOT NULL PRIMARY KEY,
-    organization_id     VARCHAR(100)   NOT NULL,
+    id                  SERIAL         NOT NULL PRIMARY KEY,
     store_name          VARCHAR(255)   NOT NULL,
     store_code          VARCHAR(50)    NULL,
     store_country       VARCHAR(100)   NULL,
@@ -26,13 +25,14 @@ CREATE TABLE IF NOT EXISTS public.stores
     store_email         VARCHAR(50)    NULL,
     epaper_count        VARCHAR(50)    NULL,
     gateway_count       VARCHAR(50)    NULL,
+	organization_id     VARCHAR(100)   NOT NULL,
     created_at          TIMESTAMPTZ    NULL DEFAULT NOW(),
     updated_at          TIMESTAMPTZ    NULL DEFAULT NOW()
 );
-CREATE INDEX index_store_id ON stores (id);
+CREATE INDEX index_store_id ON store (id);
 
 
-CREATE TABLE IF NOT EXISTS public.areas
+CREATE TABLE IF NOT EXISTS public.area
 (
     id                  SERIAL         NOT NULL PRIMARY KEY,
     organization_id     VARCHAR(100)   NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS public.areas
 );
 CREATE INDEX index_area_id ON stores (id);
 
-CREATE TABLE IF NOT EXISTS public.racks
+CREATE TABLE IF NOT EXISTS public.rack
 (
     id                  SERIAL         NOT NULL PRIMARY KEY,
     store_id            VARCHAR(50)    NULL,
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS public.racks
 );
 CREATE INDEX index_rack_id ON racks (rack_id);
 
-CREATE TABLE IF NOT EXISTS public.templates
+CREATE TABLE IF NOT EXISTS public.template
 (
     id                      SERIAL         NOT NULL PRIMARY KEY,
     template_name           VARCHAR(255)   NULL,
