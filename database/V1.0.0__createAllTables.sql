@@ -35,22 +35,21 @@ CREATE INDEX index_store_id ON store (id);
 CREATE TABLE IF NOT EXISTS public.area
 (
     id                  SERIAL         NOT NULL PRIMARY KEY,
-    organization_id     VARCHAR(100)   NOT NULL,
     area_name           VARCHAR(255)   NOT NULL,
     area_description    VARCHAR(50)    NULL,
     area_code           VARCHAR(100)   NULL,
     linked_rack         VARCHAR(50)    NULL,
     epaper_count        VARCHAR(50)    NULL,
     getway_count        VARCHAR(50)    NULL,
+    store_id            VARCHAR(100)   NOT NULL,
     created_at          TIMESTAMPTZ    NULL DEFAULT NOW(),
     updated_at          TIMESTAMPTZ    NULL DEFAULT NOW()
 );
-CREATE INDEX index_area_id ON stores (id);
+CREATE INDEX index_area_id ON area (id);
 
 CREATE TABLE IF NOT EXISTS public.rack
 (
     id                  SERIAL         NOT NULL PRIMARY KEY,
-    store_id            VARCHAR(50)    NULL,
     rack_name           VARCHAR(200)   NULL,
     rack_details        VARCHAR(255)   NULL,
     rack_number         VARCHAR(50)    NULL,
@@ -58,6 +57,8 @@ CREATE TABLE IF NOT EXISTS public.rack
     rack_image          VARCHAR(50)    NULL,
     epaper_count        VARCHAR(50)    NULL,
     getway_count        VARCHAR(50)    NULL,
+    store_id            VARCHAR(50)    NULL,
+    area_id             VARCHAR(50)    NULL,
     created_at          TIMESTAMPTZ    NULL DEFAULT NOW(),
     updated_at          TIMESTAMPTZ    NULL DEFAULT NOW(),
 );
