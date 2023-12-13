@@ -49,8 +49,6 @@ public class AreaService {
                         }).onItem().ifNull().continueWith(Response.ok().status(NOT_FOUND)::build)
         );
     }
-
-
     public Uni<Response> deleteArea(Long id) {
         return Panache.withTransaction(() -> AreaEntity.deleteById(id))
                 .map(deleted -> deleted ? Response.ok().status(NO_CONTENT).build() : Response.ok().status(NOT_FOUND).build());

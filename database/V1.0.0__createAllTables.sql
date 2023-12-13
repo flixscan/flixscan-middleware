@@ -60,9 +60,9 @@ CREATE TABLE IF NOT EXISTS public.rack
     store_id            VARCHAR(50)    NULL,
     area_id             VARCHAR(50)    NULL,
     created_at          TIMESTAMPTZ    NULL DEFAULT NOW(),
-    updated_at          TIMESTAMPTZ    NULL DEFAULT NOW(),
+    updated_at          TIMESTAMPTZ    NULL DEFAULT NOW()
 );
-CREATE INDEX index_rack_id ON racks (rack_id);
+CREATE INDEX index_rack_id ON rack (id);
 
 CREATE TABLE IF NOT EXISTS public.template
 (
@@ -71,24 +71,24 @@ CREATE TABLE IF NOT EXISTS public.template
     template_details        VARCHAR(225)   NULL,
     template_attribute      JSON           NULL,
     created_at              TIMESTAMPTZ    NULL DEFAULT NOW(),
-    updated_at              TIMESTAMPTZ    NULL DEFAULT NOW(),
+    updated_at              TIMESTAMPTZ    NULL DEFAULT NOW()
 );
-CREATE INDEX index_template_id ON templates (template_id);
+CREATE INDEX index_template_id ON template (id);
 
-CREATE TABLE IF NOT EXISTS public.products
+CREATE TABLE IF NOT EXISTS public.product
 (
     id                      SERIAL         NOT NULL PRIMARY KEY,
     product_attribute       JSON           NULL,
     linked_epaper           VARCHAR(255)   NULL,
     created_at              TIMESTAMPTZ    NULL DEFAULT NOW(),
-    updated_at              TIMESTAMPTZ    NULL DEFAULT NOW(),
+    updated_at              TIMESTAMPTZ    NULL DEFAULT NOW()
 );
-CREATE INDEX index_product_id ON products (product_id);
+CREATE INDEX index_product_id ON product (id);
 
 
-CREATE TABLE IF NOT EXISTS public.epapers
+CREATE TABLE IF NOT EXISTS public.epaper
 (
-    epaper_id               BIGINT        NOT NULL GENERATED ALWAYS AS IDENTITY,
+    id                      SERIAL        NOT NULL PRIMARY KEY,
     product_id              VARCHAR(225)  NOT NULL,
     linked_gateway          VARCHAR(225)  NOT NULL,
     battery_status          VARCHAR(225)  NOT NULL,
@@ -100,59 +100,54 @@ CREATE TABLE IF NOT EXISTS public.epapers
     removed_at              TIMESTAMPTZ   NULL,
     started_at              TIMESTAMPTZ   NULL,
     completed_at            TIMESTAMPTZ   NULL,
-    created_at              TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
-    updated_at              TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
-    CONSTRAINT pk_epaper    PRIMARY KEY (epaper_id)
+    created_at              TIMESTAMPTZ   NULL DEFAULT NOW(),
+    updated_at              TIMESTAMPTZ   NULL DEFAULT NOW()
 );
-CREATE INDEX index_epaper_id ON epapers (epaper_id);
+CREATE INDEX index_epaper_id ON epaper (id);
 
 
 
 CREATE TABLE IF NOT EXISTS public.users
 (
-    user_id                  BIGINT        NOT NULL GENERATED ALWAYS AS IDENTITY,
+    id                       SERIAL        NOT NULL PRIMARY KEY,
     user_name                VARCHAR(150)  NOT NULL,
     user_email               VARCHAR(150)  NOT NULL,
     user_pass                VARCHAR(100)  NOT NULL,
     user_salt                VARCHAR(200)  NULL,
     user_mobile              VARCHAR(50)   NULL,
-    user_roles               TEXT          NOT NULL,
+    user_roles               TEXT          NULL,
     password_requested_at    TIMESTAMPTZ   NULL,
     valid_until              TIMESTAMPTZ   NULL,
     last_login               TIMESTAMPTZ   NULL,
-    created_at               TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
-    updated_at               TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
-
-    CONSTRAINT pk_users PRIMARY KEY  (user_id),
-    CONSTRAINT uk_users_email UNIQUE (user_email)
+    created_at               TIMESTAMPTZ   NULL DEFAULT NOW(),
+    updated_at               TIMESTAMPTZ   NULL DEFAULT NOW()
 );
-CREATE INDEX index_user_id_user ON users (user_id, user_email);
+CREATE INDEX index_user_id ON users (id);
 
 
-CREATE TABLE IF NOT EXISTS public.user_roles
+CREATE TABLE IF NOT EXISTS public.user_role
 (
-    role_id                  BIGINT        NOT NULL GENERATED ALWAYS AS IDENTITY,
-    role_name                VARCHAR(150)  NOT NULL,
-    created_at               TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
-    updated_at               TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
-    CONSTRAINT pk_user_roles PRIMARY KEY (role_id)
+    id                       SERIAL        NOT NULL PRIMARY KEY,
+    role_name                VARCHAR(150)  NULL,
+    created_at               TIMESTAMPTZ   NULL DEFAULT NOW(),
+    updated_at               TIMESTAMPTZ   NULL DEFAULT NOW()
 );
-CREATE INDEX index_role_id_user_roles ON user_roles (role_id);
+CREATE INDEX index_role_id ON user_role (id);
 
 CREATE TABLE IF NOT EXISTS public.role_permission
 (
-    permission_id                          INTEGER  NOT NULL,
-    role_id                                INTEGER  NOT NULL,
-    created_at               TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
-    updated_at               TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
-    CONSTRAINT pk_role_permission          PRIMARY  KEY (role_id, permission_id)
+    id                       SERIAL        NOT NULL PRIMARY KEY,
+    role_id                                INTEGER  NULL,
+    created_at               TIMESTAMPTZ   NULL DEFAULT NOW(),
+    updated_at               TIMESTAMPTZ   NULL DEFAULT NOW()
 );
+CREATE INDEX index_role_permission_id ON role_permission (id);
 
-CREATE TABLE IF NOT EXISTS public.user_permissions
+CREATE TABLE IF NOT EXISTS public.user_permission
 (
-    permission_id            BIGINT        NOT NULL GENERATED ALWAYS AS IDENTITY,
+    id                       SERIAL        NOT NULL PRIMARY KEY,
     permission_name          VARCHAR(150)  NOT NULL,
-    created_at               TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
-    updated_at               TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
-    CONSTRAINT pk_user_permission PRIMARY KEY (permission_id)
+    created_at               TIMESTAMPTZ   NULL DEFAULT NOW(),
+    updated_at               TIMESTAMPTZ   NULL DEFAULT NOW()
 );
+CREATE INDEX index_user_permission_id ON user_permission (id);
