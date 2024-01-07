@@ -1,8 +1,4 @@
-/*
- * Copyright (c) 2024 flixscan. All rights reserved.
- */
-package com.flixscan.middleware.area;
-
+package com.flixscan.middleware.rack;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -21,51 +17,54 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import org.jboss.logging.Logger;
 
-@Path("areas")
+@Path("racks")
 @Produces("application/json")
 @Consumes("application/json")
-public class AreaResource {
-    private static final Logger LOGGER = Logger.getLogger(AreaResource.class.getName());
+public class RackResource {
+    private static final Logger LOGGER = Logger.getLogger(RackResource.class.getName());
     @Inject
-    AreaService service;
+    RackService service;
 
 
     @GET
-    public Uni<List<AreaEntity>> getAllEntry() {
-        return service.getAllArea();
+    public Uni<List<RackEntity>> getAllEntry() {
+        return service.getAllRack();
     }
 
-    public Uni<AreaEntity> getSingleEntry(@PathParam("id") Long id) {
+    public Uni<RackEntity> getSingleEntry(@PathParam("id") Long id) {
         return service.findItemById(id);
     }
 
     @GET
     @Path("/{limit}/{offset}")
     // limit= item per page, offset = page number. if 6 element and per page 3 than total 2 page. so limit = 3, page =1 but url param=0 and page 2 but url param= 3
-    public Uni<List<AreaEntity>> getEntryByPage(int limit, int offset) {
+    public Uni<List<RackEntity>> getEntryByPage(int limit, int offset) {
         return service.findAllByPage(limit, offset);
     }
 
     @POST
-    public Uni<Response> createEntry(AreaEntity area) {
-        if (area == null || area.getId() != null) {
+    public Uni<Response> createEntry(RackEntity rack) {
+        if (rack == null || rack.getId() != null) {
             throw new WebApplicationException("Id was invalidly set on request.", 422);
         }
-        return service.createArea(area);
+        LOGGER.info("New rack is created");
+        return service.createRack(rack);
     }
 
     @PUT
     @Path("{key}")
-    public Uni<Response> updateEntry(@PathParam("key") Long key, AreaEntity area) {
-        if (area == null || area.getAreaName() == null) {
-            throw new WebApplicationException("Area name was not set on request.", 422);
+    public Uni<Response> updateEntry(@PathParam("key") Long key, RackEntity rack) {
+        if (rack == null || rack.getRackName() == null) {
+            throw new WebApplicationException("Rack name was not set on request.", 422);
         }
-        return service.updateArea(key, area);
+        LOGGER.info("A rack is updated with id: " + key);
+        return service.updateRack(key, rack);
     }
 
     @DELETE
     @Path("{key}")
     public Uni<Response> deleteEntry(@PathParam("key") Long key) {
-        return service.deleteArea(key);
+        LOGGER.info("A rack is deleted with id: " + key);
+        return service.deleteRack(key);
     }
 }

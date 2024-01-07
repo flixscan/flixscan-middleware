@@ -19,7 +19,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.jboss.logging.Logger;
 
-@Path("store")
+@Path("stores")
 @Produces("application/json")
 @Consumes("application/json")
 public class StoreResource {
@@ -67,8 +67,9 @@ public class StoreResource {
             }
     )
     @GET
-    @Path("/{limit}/{offset}") // limit= item per page, offset = page number. if 6 element and per page 3 than total 2 page. so limit = 3, page =1 but url param=0 and page 2 but url param= 3
-    public Uni<List<StoreEntity>> getEntryByPage(@PathParam("limit") int limit, @PathParam("offset") int  offset) {
+    @Path("/{limit}/{offset}")
+    // limit= item per page, offset = page number. if 6 element and per page 3 than total 2 page. so limit = 3, page =1 but url param=0 and page 2 but url param= 3
+    public Uni<List<StoreEntity>> getEntryByPage(@PathParam("limit") int limit, @PathParam("offset") int offset) {
         return service.findAllByPage(limit, offset);
     }
 
@@ -138,6 +139,6 @@ public class StoreResource {
             }
     )
     public Uni<Response> deleteEntry(@PathParam("key") Long key) {
-       return service.deleteStore(key);
+        return service.deleteStore(key);
     }
 }

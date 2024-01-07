@@ -1,5 +1,4 @@
-package com.flixscan.middleware.area;
-
+package com.flixscan.middleware.rack;
 import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -14,26 +13,26 @@ import java.time.Instant;
 
 @Data
 @Entity
-@Table(name = "area")
+@Table(name = "rack")
 @EqualsAndHashCode(callSuper = false)
-public class AreaEntity extends PanacheEntityBase {
+public class RackEntity extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "area_name")
-    private String areaName;
+    @Column(name = "rack_name")
+    private String rackName;
 
-    @Column(name = "area_description")
-    private String areaDescription;
+    @Column(name = "rack_details")
+    private String rackDetails;
 
-    @Column(name = "area_code")
-    private String areaCode;
+    @Column(name = "rack_area")
+    private String rackArea;
 
-    @Column(name = "linked_rack")
-    private String linkedRack;
+    @Column(name = "rack_image")
+    private String rackImage;
 
     @Column(name = "epaper_count")
     private String epaperCount;
