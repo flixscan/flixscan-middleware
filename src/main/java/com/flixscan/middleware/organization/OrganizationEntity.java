@@ -49,9 +49,9 @@ public class OrganizationEntity extends PanacheEntityBase {
     @Column(name = "registration_id")
     private String registrationId;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", columnDefinition = "TIMESTAMPTZ DEFAULT NOW()")
     private Instant createdAt;
 
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", columnDefinition = "TIMESTAMPTZ DEFAULT NOW()")
     private Instant updatedAt;
 }

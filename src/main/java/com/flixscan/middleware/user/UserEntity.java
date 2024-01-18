@@ -14,7 +14,7 @@ import java.time.Instant;
 
 @Data
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @EqualsAndHashCode(callSuper = false)
 public class UserEntity extends PanacheEntityBase {
 
@@ -23,8 +23,11 @@ public class UserEntity extends PanacheEntityBase {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "user_name")
-    private String userName;
+    @Column(name = "user_fname")
+    private String userFirstName;
+
+    @Column(name = "user_lname")
+    private String userLastName;
 
     @Column(name = "user_email")
     private String userEmail;
@@ -48,13 +51,13 @@ public class UserEntity extends PanacheEntityBase {
     private Boolean isVerified;
 
     @Column(name = "valid_until")
-    private Boolean validUntil;
+    private Instant validUntil;
 
     @Column(name = "last_login")
-    private Boolean lastLogin;
+    private Instant lastLogin;
 
     @Column(name = "password_requested_at")
-    private Boolean passwordRequestedAt;
+    private Instant passwordRequestedAt;
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMPTZ DEFAULT NOW()")
     private Instant createdAt;

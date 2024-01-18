@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS public.template
     template_name           VARCHAR(255)   NULL,
     template_details        VARCHAR(225)   NULL,
     template_attribute      JSON           NULL,
+    linked_product          VARCHAR(100)   NULL,
     created_at              TIMESTAMPTZ    NULL DEFAULT NOW(),
     updated_at              TIMESTAMPTZ    NULL DEFAULT NOW()
 );
@@ -80,6 +81,7 @@ CREATE TABLE IF NOT EXISTS public.product
     id                      SERIAL         NOT NULL PRIMARY KEY,
     product_attribute       JSON           NULL,
     linked_epaper           VARCHAR(255)   NULL,
+    linked_rack             VARCHAR(255)   NULL,
     created_at              TIMESTAMPTZ    NULL DEFAULT NOW(),
     updated_at              TIMESTAMPTZ    NULL DEFAULT NOW()
 );
@@ -89,14 +91,15 @@ CREATE INDEX index_product_id ON product (id);
 CREATE TABLE IF NOT EXISTS public.epaper
 (
     id                      SERIAL        NOT NULL PRIMARY KEY,
-    product_id              VARCHAR(225)  NOT NULL,
-    linked_gateway          VARCHAR(225)  NOT NULL,
-    battery_status          VARCHAR(225)  NOT NULL,
-    process_status          VARCHAR(100)  NOT NULL,
-    network_status          VARCHAR(100)  NOT NULL,
-    signal_strength         VARCHAR(100)  NOT NULL,
-    is_removed              BOOLEAN       NOT NULL,
-    label_technology        VARCHAR(225)  NOT NULL,
+    identity_id             VARCHAR(225)  NULL,
+    product_id              VARCHAR(225)  NULL,
+    linked_gateway          VARCHAR(225)  NULL,
+    battery_status          VARCHAR(225)  NULL,
+    process_status          VARCHAR(255)  NULL,
+    network_status          VARCHAR(255)  NULL,
+    signal_strength         VARCHAR(255)  NULL,
+    is_removed              BOOLEAN       NULL,
+    label_technology        VARCHAR(225)  NULL,
     removed_at              TIMESTAMPTZ   NULL,
     started_at              TIMESTAMPTZ   NULL,
     completed_at            TIMESTAMPTZ   NULL,
@@ -110,7 +113,8 @@ CREATE INDEX index_epaper_id ON epaper (id);
 CREATE TABLE IF NOT EXISTS public.users
 (
     id                       SERIAL        NOT NULL PRIMARY KEY,
-    user_name                VARCHAR(150)  NOT NULL,
+    user_fname               VARCHAR(150)  NULL,
+    user_lname               VARCHAR(150)  NULL,
     user_email               VARCHAR(150)  NOT NULL,
     user_pass                VARCHAR(100)  NOT NULL,
     user_salt                VARCHAR(200)  NULL,

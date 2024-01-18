@@ -36,7 +36,8 @@ public class UserService {
         return Panache.withTransaction(() ->
                 updatedUser.<UserEntity>findById(id)
                         .onItem().ifNotNull().transform(entity -> {
-                            entity.setUserName(updatedUser.getUserName());
+                            entity.setUserFirstName(updatedUser.getUserFirstName());
+                            entity.setUserLastName(updatedUser.getUserLastName());
                             entity.setUserEmail(updatedUser.getUserEmail());
                             entity.setUserPass(updatedUser.getUserPass());
                             entity.setUserSalt(updatedUser.getUserSalt());
