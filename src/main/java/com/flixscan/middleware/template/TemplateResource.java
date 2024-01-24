@@ -3,8 +3,6 @@
  */
 package com.flixscan.middleware.template;
 
-import com.flixscan.middleware.product.ProductEntity;
-import com.flixscan.middleware.product.ProductService;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -52,6 +50,7 @@ public class TemplateResource {
         if (template == null || template.getId() != null) {
             throw new WebApplicationException("Id was invalidly set on request.", 422);
         }
+        LOGGER.info(template);
         return service.createTemplate(template);
     }
 

@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS public.template
     id                      SERIAL         NOT NULL PRIMARY KEY,
     template_name           VARCHAR(255)   NULL,
     template_details        VARCHAR(225)   NULL,
-    template_attribute      JSON           NULL,
+    template_attribute      TEXT           NULL,
     linked_product          VARCHAR(100)   NULL,
     created_at              TIMESTAMPTZ    NULL DEFAULT NOW(),
     updated_at              TIMESTAMPTZ    NULL DEFAULT NOW()
@@ -79,9 +79,10 @@ CREATE INDEX index_template_id ON template (id);
 CREATE TABLE IF NOT EXISTS public.product
 (
     id                      SERIAL         NOT NULL PRIMARY KEY,
-    product_attribute       JSON           NULL,
+    product_attribute       TEXT           NULL,
     linked_epaper           VARCHAR(255)   NULL,
     linked_rack             VARCHAR(255)   NULL,
+    store_id                VARCHAR(50)    NULL,
     created_at              TIMESTAMPTZ    NULL DEFAULT NOW(),
     updated_at              TIMESTAMPTZ    NULL DEFAULT NOW()
 );

@@ -31,7 +31,7 @@ public class TemplateEntity extends PanacheEntityBase {
     @Column(name = "template_details")
     private String templateDetails;
 
-    @Column(name = "template_attribute")
+    @Column(name = "template_attribute", columnDefinition = "TEXT")
     private String templateAttribute;
 
     @Column(name = "linked_product")

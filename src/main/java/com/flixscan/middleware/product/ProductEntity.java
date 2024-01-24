@@ -2,6 +2,7 @@
  * Copyright (c) 2024 flixscan. All rights reserved.
  */
 package com.flixscan.middleware.product;
+
 import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -14,6 +15,7 @@ import lombok.EqualsAndHashCode;
 
 import java.time.Instant;
 
+
 @Data
 @Entity
 @Table(name = "product")
@@ -25,7 +27,7 @@ public class ProductEntity extends PanacheEntityBase {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "product_attribute")
+    @Column(name = "product_attribute", columnDefinition = "TEXT")
     private String productAttribute;
 
     @Column(name = "linked_epaper")

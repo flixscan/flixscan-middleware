@@ -2,7 +2,7 @@
  * Copyright (c) 2024 flixscan. All rights reserved.
  */
 package com.flixscan.middleware.template;
-import com.flixscan.middleware.product.ProductEntity;
+
 import io.quarkus.hibernate.reactive.panache.Panache;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -15,8 +15,11 @@ import static jakarta.ws.rs.core.Response.Status.CREATED;
 import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
 import static jakarta.ws.rs.core.Response.Status.NO_CONTENT;
 
+
 @ApplicationScoped
 public class TemplateService {
+
+//    private static final Jsonb JSONB = JsonbBuilder.create();
 
     public Uni<List<TemplateEntity>> getAllTemplate() {
         return TemplateEntity.listAll();
@@ -54,4 +57,8 @@ public class TemplateService {
         return Panache.withTransaction(() -> TemplateEntity.deleteById(id))
                 .map(deleted -> deleted ? Response.ok().status(NO_CONTENT).build() : Response.ok().status(NOT_FOUND).build());
     }
+
+//    public static <T> String serializeToJson(final T bean) {
+//        return bean != null ? JSONB.toJson(bean) : null;
+//    }
 }
