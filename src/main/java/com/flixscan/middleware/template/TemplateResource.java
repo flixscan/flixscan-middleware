@@ -3,6 +3,7 @@
  */
 package com.flixscan.middleware.template;
 
+import com.flixscan.middleware.common.XslImageRenderer;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -11,6 +12,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
 import io.smallrye.mutiny.Uni;
 
+import java.io.IOException;
 import java.util.List;
 
 import jakarta.inject.Inject;
@@ -20,6 +22,10 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import org.jboss.logging.Logger;
+import org.xml.sax.SAXException;
+
+import javax.xml.transform.TransformerException;
+
 
 @Path("templates")
 @Produces("application/json")
@@ -29,14 +35,18 @@ public class TemplateResource {
     @Inject
     TemplateService service;
 
+    @Inject
+    XslImageRenderer xmlImage;
+
     @GET
-    public Uni<List<TemplateEntity>> getAllEntry() {
+    public Uni<List<TemplateEntity>> getAllEntry() throws IOException, TransformerException, SAXException {
+        xmlImage.xmlToPdf();
         return service.getAllTemplate();
     }
 
-    public Uni<TemplateEntity> getSingleEntry(@PathParam("id") Long id) {
-        return service.findItemById(id);
-    }
+//    public Uni<TemplateEntity> getSingleEntry(@PathParam("id") Long id) {
+//        return service.findItemById(id);
+//    }
 
     @GET
     @Path("/{limit}/{offset}")
